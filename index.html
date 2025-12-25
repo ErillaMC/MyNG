@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyNG - My Next Generation | Minecraft Java сервер</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a1a;
+            --accent-dark: #2a2a2a;
+            --light-dark: #3a3a3a;
+            --text-light: #f5f5f5;
+            --text-gray: #aaaaaa;
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 50%, #000000 100%);
+            --gradient-accent: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #0a0a0a 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: #121212;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes burgerTop {
+            0% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(8px) rotate(0); }
+            100% { transform: translateY(8px) rotate(45deg); }
+        }
+        
+        @keyframes burgerBottom {
+            0% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-8px) rotate(0); }
+            100% { transform: translateY(-8px) rotate(-45deg); }
+        }
+        
+        @keyframes burgerMiddle {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        @keyframes burgerTopReverse {
+            0% { transform: translateY(8px) rotate(45deg); }
+            50% { transform: translateY(8px) rotate(0); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+        
+        @keyframes burgerBottomReverse {
+            0% { transform: translateY(-8px) rotate(-45deg); }
+            50% { transform: translateY(-8px) rotate(0); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+        
+        @keyframes burgerMiddleReverse {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .animate-delay-1 { animation-delay: 0.2s; }
+        .animate-delay-2 { animation-delay: 0.4s; }
+        .animate-delay-3 { animation-delay: 0.6s; }
+        .animate-delay-4 { animation-delay: 0.8s; }
+        
+        /* Header Styles */
+        header {
+            background: var(--gradient-dark);
+            color: var(--text-light);
+            padding: 1.2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--light-dark);
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+        
+        .logo-text span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: var(--text-gray);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--text-light);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        nav a:hover {
+            color: var(--text-light);
+        }
+        
+        /* Анимированное бургер-меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 30px;
+            height: 25px;
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .mobile-menu-btn span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--text-light);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-btn span:nth-child(1) {
+            top: 0;
+        }
+        
+        .mobile-menu-btn span:nth-child(2) {
+            top: 11px;
+        }
+        
+        .mobile-menu-btn span:nth-child(3) {
+            top: 22px;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(1) {
+            animation: burgerTop 0.3s ease forwards;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(2) {
+            animation: burgerMiddle 0.3s ease forwards;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(3) {
+            animation: burgerBottom 0.3s ease forwards;
+        }
+        
+        .mobile-menu-btn:not(.active) span:nth-child(1) {
+            animation: burgerTopReverse 0.3s ease forwards;
+        }
+        
+        .mobile-menu-btn:not(.active) span:nth-child(2) {
+            animation: burgerMiddleReverse 0.3s ease forwards;
+        }
+        
+        .mobile-menu-btn:not(.active) span:nth-child(3) {
+            animation: burgerBottomReverse 0.3s ease forwards;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: var(--gradient-dark);
+            color: var(--text-light);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--light-dark);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 100,100 0,100 Z" opacity="0.03"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            color: var(--text-gray);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: var(--text-light);
+            padding: 14px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: 1px solid var(--light-dark);
+            text-align: center;
+            min-width: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #1a1a1a 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            border-color: var(--light-dark);
+        }
+        
+        .social-hero {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid var(--light-dark);
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #1a1a1a 100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .social-link.telegram:hover {
+            background: #0088cc;
+            color: white;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background-color: var(--secondary-dark);
+            border-bottom: 1px solid var(--light-dark);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+        }
+        
+        /* Измененная сетка для особенностей - последняя карточка по центру на десктопе */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: var(--gradient-accent);
+            border-radius: 8px;
+            padding: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--light-dark);
+            opacity: 0;
+        }
+        
+        .feature-card.visible {
+            opacity: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-color: #444;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-size: 1.4rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .feature-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--text-gray);
+            transition: width 0.3s;
+        }
+        
+        .feature-card:hover h3::after {
+            width: 100%;
+        }
+        
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+        
+        /* Карточка "Улучшенный геймплей" - будет по центру на десктопе */
+        .feature-card.center-card {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 4rem 0;
+            background-color: var(--primary-dark);
+            border-bottom: 1px solid var(--light-dark);
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .about-text p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Rules Section */
+        .rules {
+            padding: 4rem 0;
+            background-color: var(--secondary-dark);
+            border-bottom: 1px solid var(--light-dark);
+        }
+        
+        .rules-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .rules-intro {
+            background: var(--gradient-accent);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--light-dark);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .rules-intro.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .rules-list {
+            background: var(--gradient-accent);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--light-dark);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .rules-list.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .rules-list ol {
+            margin-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .rules-list li {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .rules-list.visible li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .rules-list li:nth-child(1) { transition-delay: 0.1s; }
+        .rules-list li:nth-child(2) { transition-delay: 0.2s; }
+        .rules-list li:nth-child(3) { transition-delay: 0.3s; }
+        .rules-list li:nth-child(4) { transition-delay: 0.4s; }
+        .rules-list li:nth-child(5) { transition-delay: 0.5s; }
+        .rules-list li:nth-child(6) { transition-delay: 0.6s; }
+        
+        .rules-list h4 {
+            margin-top: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .rules-list ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .rules-list ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Social Section */
+        .social-section {
+            padding: 4rem 0;
+            background-color: var(--primary-dark);
+            border-bottom: 1px solid var(--light-dark);
+        }
+        
+        .social-container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .social-container h2 {
+            margin-bottom: 2rem;
+        }
+        
+        .social-container p {
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gradient-accent);
+            border: 1px solid var(--light-dark);
+            padding: 16px 28px;
+            border-radius: 8px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            min-width: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .social-button:hover::before {
+            left: 100%;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #1a1a1a 100%);
+        }
+        
+        .social-button.telegram:hover {
+            background: #0088cc;
+        }
+        
+        .social-button i {
+            font-size: 1.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid var(--light-dark);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--text-light);
+        }
+        
+        .footer-section p {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-section a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--text-light);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            border: 1px solid var(--light-dark);
+        }
+        
+        .footer-social a:hover {
+            transform: translateY(-3px) scale(1.1);
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #1a1a1a 100%);
+        }
+        
+        .footer-social a.telegram:hover {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--light-dark);
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+        
+        .java-only-mobile {
+            display: none;
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            font-weight: 500;
+            border-top: 1px solid var(--light-dark);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close-banner {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .close-banner:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .feature-card.center-card {
+                grid-column: 1 / span 2;
+                grid-row: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-dark);
+                flex-direction: column;
+                padding: 1.5rem;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+                border-top: 1px solid var(--light-dark);
+                border-bottom: 1px solid var(--light-dark);
+                z-index: 999;
+                transform: translateY(-20px);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+            }
+            
+            nav ul.active {
+                display: flex;
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            nav ul li {
+                width: 100%;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 12px 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .features, .about, .rules, .social-section {
+                padding: 3rem 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .feature-card.center-card {
+                grid-column: 1;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .about-text p {
+                font-size: 1rem;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .java-only-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .cta-button, .social-button {
+                padding: 12px 20px;
+                font-size: 1rem;
+                min-width: auto;
+            }
+            
+            .feature-card {
+                padding: 1.3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .rules-intro, .rules-list {
+                padding: 1.5rem;
+            }
+            
+            .social-hero {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero-buttons {
+                gap: 0.8rem;
+            }
+            
+            .cta-button {
+                padding: 10px 16px;
+                font-size: 0.95rem;
+            }
+            
+            .social-hero {
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-text">
+                    <h1>My<span>NG</span></h1>
+                    <span>My Next Generation</span>
+                </div>
+            </div>
+            
+            <!-- Анимированное бургер-меню -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#features">Особенности</a></li>
+                    <li><a href="#about">О сервере</a></li>
+                    <li><a href="#rules">Правила</a></li>
+                    <li><a href="#social">Соцсети</a></li>
+                    <li><a href="https://1hlctvki.forms.app/myng" target="_blank" class="cta-button" style="padding: 8px 20px; font-size: 0.9rem;">Подать заявку</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate-fade-in">My Next Generation <span>— новый взгляд на Minecraft</span></h1>
+                <p class="animate-fade-in animate-delay-1">MyNG (My Next Generation — "Моя Последующая Генерация") — это новый Minecraft Java проект, ориентированный на качественный игровой опыт, улучшение комьюнити, нестандартную генерацию и адекватную модерацию. Мы стремимся создать гармоничный и целостный мир, где каждый игрок найдёт своё место.</p>
+                
+                <div class="hero-buttons">
+                    <a href="https://1hlctvki.forms.app/myng" target="_blank" class="cta-button animate-fade-in animate-delay-2">Подать заявку в WhiteList</a>
+                    <a href="#about" class="cta-button secondary animate-fade-in animate-delay-3">Узнать о проекте</a>
+                </div>
+                
+                <div class="social-hero">
+                    <a href="https://t.me/MyNGcraft" target="_blank" class="social-link telegram animate-fade-in animate-delay-4" aria-label="Telegram канал">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate-fade-in">Что мы предлагаем</h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card animate-fade-in animate-delay-1">
+                    <h3>Дружелюбное комьюнити</h3>
+                    <p>Мы создаём среду, в которой уважают друг друга и работают вместе над созданием уникального мира. На сервере нет места токсичности и оскорблениям.</p>
+                </div>
+                
+                <div class="feature-card animate-fade-in animate-delay-2">
+                    <h3>Нестандартная генерация</h3>
+                    <p>Мы отошли от стандартного мира Minecraft. На MyNG вас ждут уникальные биомы, интересные ландшафты и сбалансированные ресурсы для комфортной игры.</p>
+                </div>
+                
+                <div class="feature-card animate-fade-in animate-delay-3">
+                    <h3>Честная модерация</h3>
+                    <p>Наша команда модераторов следит за соблюдением правил и помогает игрокам. Мы не злоупотребляем своими правами и всегда открыты для диалога.</p>
+                </div>
+                
+                <!-- Карточка по центру на десктопе -->
+                <div class="feature-card center-card animate-fade-in animate-delay-4">
+                    <h3>Улучшенный геймплей</h3>
+                    <p>Мы добавляем интересные механики, которые делают игру разнообразнее, но не нарушают ванильную атмосферу Minecraft. Никаких pay-to-win элементов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate-fade-in">О проекте MyNG</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="animate-fade-in animate-delay-1">My Next Generation — это не просто очередной Minecraft сервер. Это проект, который создаётся с нуля одним амбициозным человеком, но с поддержкой единомышленников.</p>
+                    <p class="animate-fade-in animate-delay-2">Наша главная цель — создать такой сервер, на котором захочется оставаться надолго. Мир, где игроки будут создавать историю, формировать сообщество и наслаждаться каждой минутой, проведённой в игре.</p>
+                    <p class="animate-fade-in animate-delay-3">Мы верим, что Minecraft — это больше, чем просто игра. Это платформа для творчества, общения и самовыражения. И на MyNG мы делаем всё возможное, чтобы каждый игрок мог реализовать свои идеи в дружелюбной и поддерживающей атмосфере.</p>
+                    <p class="animate-fade-in animate-delay-4">Проект всё ещё находится в разработке, но мы уже принимаем заявки в WhiteList. Присоединяйтесь к нам на раннем этапе и помогите сформировать мир, в котором будем вдохновлять других.</p>
+                    
+                    <div style="margin-top: 2rem;">
+                        <a href="https://1hlctvki.forms.app/myng" target="_blank" class="cta-button animate-fade-in animate-delay-1" style="margin-right: 15px;">Присоединиться</a>
+                        <a href="#rules" class="cta-button secondary animate-fade-in animate-delay-2">Правила сервера</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rules Section -->
+    <section class="rules" id="rules">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate-fade-in">Правила сервера</h2>
+            </div>
+            
+            <div class="rules-container">
+                <div class="rules-intro animate-fade-in animate-delay-1">
+                    <p>Важно понимать, что мы создали правила не для ограничения свободы, а для баланса мира и стабильной ламповой игровой среды. Соблюдение этих правил помогает всем игрокам получать удовольствие от игры.</p>
+                </div>
+                
+                <div class="rules-list animate-fade-in animate-delay-2">
+                    <h3>Основные правила:</h3>
+                    <ol>
+                        <li>Уважайте других игроков. Оскорбления, дискриминация и токсичное поведение недопустимы.</li>
+                        <li>Не гриферите и не воруйте чужие постройки и ресурсы без разрешения.</li>
+                        <li>Использование читов, багов и эксплойтов для получения преимущества запрещено.</li>
+                        <li>Не создавайте лаг-машины и конструкции, которые негативно влияют на производительность сервера.</li>
+                        <li>Реклама других серверов и проектов без согласия администрации запрещена.</li>
+                        <li>Соблюдайте общие нормы приличия в чате и голосовой связи.</li>
+                    </ol>
+                    
+                    <h4>Наказания за нарушение правил:</h4>
+                    <p>Мы не потерпим нарушения правил, опубликованных на нашем официальном сайте (myng.ru). За их нарушение мы можем:</p>
+                    <ul>
+                        <li>Ограничить деятельность аккаунта на время, указанное в правилах, с последующим полным ограничением аккаунта.</li>
+                        <li>Полностью ограничить аккаунт в особо тяжких случаях или при повторном нарушении правил.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section class="social-section" id="social">
+        <div class="container">
+            <div class="social-container">
+                <h2 class="animate-fade-in">Присоединяйтесь к нашему сообществу</h2>
+                <p class="animate-fade-in animate-delay-1">Следите за обновлениями, обсуждайте игру с другими игроками и будьте в курсе всех новостей сервера MyNG.</p>
+                
+                <div class="social-buttons">
+                    <a href="https://t.me/MyNGcraft" target="_blank" class="social-button telegram animate-fade-in animate-delay-2">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram канал</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>My Next Generation</h3>
+                    <p>Minecraft Java сервер, созданный для тех, кто ищет новый опыт и дружелюбное сообщество.</p>
+                    <p style="margin-top: 15px; color: var(--text-gray);">
+                        Официальный сайт: myng.ru
+                    </p>
+                    
+                    <div class="footer-social">
+                        <a href="https://t.me/MyNGcraft" target="_blank" class="telegram" aria-label="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#features">Особенности</a></li>
+                        <li><a href="#about">О сервере</a></li>
+                        <li><a href="#rules">Правила</a></li>
+                        <li><a href="#social">Соцсети</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ссылки</h3>
+                    <ul>
+                        <li><a href="https://1hlctvki.forms.app/myng" target="_blank">Заявка в WhiteList</a></li>
+                        <li><a href="#rules">Правила сервера</a></li>
+                        <li><a href="mailto:contact@myng.ru">Связаться с нами</a></li>
+                        <li><a href="https://t.me/MyNGcraft" target="_blank">Telegram канал</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 My Next Generation (MyNG). Все права защищены.</p>
+                <p>Это неофициальный сайт, не связанный с Mojang или Microsoft.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Mobile notification for Java players -->
+    <div class="java-only-mobile" id="javaMobileNotification">
+        <span>Сервер MyNG предназначен только для игроков на Minecraft Java Edition</span>
+        <button class="close-banner" id="closeBanner">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script>
+        // Mobile menu toggle with animation
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            // Блокируем прокрутку тела при открытом меню
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close mobile menu when clicking outside or on a link
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && 
+                !navMenu.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target) && 
+                navMenu.classList.contains('active')) {
+                mobileMenuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    mobileMenuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+        
+        // Show mobile notification for Java players
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Check if user has hidden the banner before
+        const bannerHidden = localStorage.getItem('myngBannerHidden');
+        
+        // Show notification for mobile devices if user hasn't hidden it
+        if (isMobileDevice() && !bannerHidden) {
+            document.getElementById('javaMobileNotification').style.display = 'flex';
+        }
+        
+        // Close banner
+        document.getElementById('closeBanner').addEventListener('click', function() {
+            document.getElementById('javaMobileNotification').style.display = 'none';
+            // Save to localStorage that user hid the banner
+            localStorage.setItem('myngBannerHidden', 'true');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                
+                // Skip processing for other page links
+                if (href === '#') return;
+                if (href.includes('.html')) return;
+                
+                e.preventDefault();
+                
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Анимация появления элементов при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Для списка правил анимируем каждый элемент отдельно
+                    if (entry.target.classList.contains('rules-list')) {
+                        const listItems = entry.target.querySelectorAll('li');
+                        listItems.forEach(item => {
+                            item.classList.add('visible');
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Наблюдаем за элементами, которые должны появляться при прокрутке
+        document.querySelectorAll('.feature-card, .about-text p, .rules-intro, .rules-list').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add active class to nav links on scroll
+        const sections = document.querySelectorAll('section[id]');
+        
+        function highlightNavLink() {
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                const navLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    if (navLink) navLink.classList.add('active');
+                } else {
+                    if (navLink) navLink.classList.remove('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightNavLink);
+        
+        // Mobile optimization - adjust font sizes on very small screens
+        function adjustMobileStyles() {
+            if (window.innerWidth <= 360) {
+                // Reduce font sizes for very small screens
+                document.querySelectorAll('h1').forEach(el => {
+                    if (el.style.fontSize) return;
+                    const currentSize = parseFloat(window.getComputedStyle(el).fontSize);
+                    if (currentSize > 24) el.style.fontSize = '1.5rem';
+                });
+                
+                document.querySelectorAll('h2').forEach(el => {
+                    if (el.style.fontSize) return;
+                    const currentSize = parseFloat(window.getComputedStyle(el).fontSize);
+                    if (currentSize > 20) el.style.fontSize = '1.6rem';
+                });
+            } else {
+                // Reset styles if not on very small screen
+                document.querySelectorAll('h1, h2').forEach(el => {
+                    el.style.fontSize = '';
+                });
+            }
+        }
+        
+        window.addEventListener('resize', adjustMobileStyles);
+        adjustMobileStyles(); // Initial check
+        
+        // Принудительно активируем анимацию для элементов, которые уже видны при загрузке
+        window.addEventListener('load', function() {
+            // Для элементов с классом animate-fade-in, которые уже в зоне видимости
+            const fadeElements = document.querySelectorAll('.animate-fade-in');
+            fadeElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
