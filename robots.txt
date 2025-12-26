@@ -1,0 +1,45 @@
+# Файл robots.txt для My Next Generation (MyNG.ru)
+# Основная цель: управление трафиком краулеров, оптимизация сканирования.
+# Последнее обновление: 2025-12-27
+
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /admin/
+
+# Разрешаем сканирование CSS и JS для корректного понимания страниц
+Allow: /*.css$
+Allow: /*.js$
+
+# Блокируем сканирование архивов и служебных файлов
+Disallow: /*.zip$
+Disallow: /*.rar$
+Disallow: /*.7z$
+Disallow: /*.sql$
+
+# Указываем карту сайта для ускорения индексации
+Sitemap: https://myng.ru/sitemap.xml
+
+# --- Блокировка агрессивных и бесполезных ботов (экономия ресурсов сервера) ---
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: MJ12bot
+Disallow: /
+User-agent: DotBot
+Disallow: /
+User-agent: BLEXBot
+Disallow: /
+
+# --- Разрешение для ботов социальных сетей и мессенджеров (для красивых превью) ---
+User-agent: TelegramBot
+Allow: /
+User-agent: Discordbot
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: FacebookExternalHit
+Allow: /
