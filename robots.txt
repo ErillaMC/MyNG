@@ -1,0 +1,247 @@
+# ============================================
+# ROBOTS.TXT ДЛЯ MyNG.RU
+# Minecraft Java сервер My Next Generation
+# ============================================
+
+User-agent: *
+Crawl-delay: 1
+Request-rate: 1/10
+Visit-time: 0600-2200
+
+# Основные правила
+Allow: /
+Allow: /index.html
+Allow: /404.html
+
+# Блокировка технических директорий
+Disallow: /cgi-bin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /administrator/
+Disallow: /cache/
+Disallow: /includes/
+Disallow: /installation/
+Disallow: /language/
+Disallow: /libraries/
+Disallow: /logs/
+Disallow: /tmp/
+
+# Блокировка параметров и динамических страниц
+Disallow: /*?*
+Disallow: /*.php$
+Disallow: /*.asp$
+Disallow: /*.aspx$
+Disallow: /*.cgi$
+Disallow: /*.cfm$
+Disallow: /*.jsp$
+Disallow: /*.do$
+
+# Блокировка дублей и версий для печати/мобильных
+Disallow: /*?print
+Disallow: /*?mobile
+Disallow: /*?amp
+Disallow: /*?view=print
+Disallow: /*?format=pdf
+
+# Карта сайта
+Sitemap: https://myng.ru/sitemap.xml
+Sitemap: https://myng.ru/sitemap-index.xml
+
+# ============================================
+# НАСТРОЙКИ ДЛЯ КОНКРЕТНЫХ ПОИСКОВЫХ СИСТЕМ
+# ============================================
+
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /search
+Disallow: /private/
+Crawl-delay: 1
+Clean-param: utm_source /index.html
+Clean-param: utm_medium /index.html
+Clean-param: utm_campaign /index.html
+
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /private/images/
+
+User-agent: Googlebot-Mobile
+Allow: /
+Crawl-delay: 1
+
+User-agent: Mediapartners-Google
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Disallow: /search
+Disallow: /private/
+Crawl-delay: 1
+Clean-param: from /index.html
+Clean-param: ref /index.html
+Clean-param: source /index.html
+
+User-agent: YandexImages
+Allow: /
+Disallow: /private/images/
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: bingbot
+Allow: /
+Disallow: /search
+Crawl-delay: 1
+
+User-agent: MSNBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: MSNBot-Media
+Allow: /
+Crawl-delay: 1
+
+# ============================================
+# БЛОКИРОВКА АГРЕССИВНЫХ И СЕО-БОТОВ
+# ============================================
+
+User-agent: MJ12bot
+Disallow: /
+Crawl-delay: 30
+
+User-agent: AhrefsBot
+Disallow: /
+Crawl-delay: 30
+
+User-agent: SemrushBot
+Disallow: /
+Crawl-delay: 30
+
+User-agent: DotBot
+Disallow: /
+Crawl-delay: 30
+
+User-agent: MegaIndex
+Disallow: /
+Crawl-delay: 30
+
+User-agent: BLEXBot
+Disallow: /
+Crawl-delay: 30
+
+User-agent: ia_archiver-web.archive.org
+Disallow: /
+Crawl-delay: 10
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+Crawl-delay: 10
+
+# ============================================
+# РАЗРЕШЕНИЕ ДЛЯ ПОЛЕЗНЫХ БОТОВ
+# ============================================
+
+# Социальные сети
+User-agent: FacebookExternalHit
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Pinterest
+Allow: /
+Crawl-delay: 1
+
+# Мессенджеры
+User-agent: TelegramBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Discordbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slackbot
+Allow: /
+Crawl-delay: 1
+
+# Веб-архивы
+User-agent: archive.org_bot
+Allow: /
+Crawl-delay: 5
+
+User-agent: ia_archiver
+Allow: /
+Crawl-delay: 5
+
+# Аналитика и мониторинг
+User-agent: UptimeRobot
+Allow: /
+Crawl-delay: 10
+
+User-agent: Pingdom
+Allow: /
+Crawl-delay: 10
+
+# ============================================
+# ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ
+# ============================================
+
+# Разрешаем индексацию CSS и JS (важно для Google)
+Allow: *.css$
+Allow: *.js$
+
+# Блокируем ненужные расширения файлов
+Disallow: /*.zip$
+Disallow: /*.rar$
+Disallow: /*.tar$
+Disallow: /*.gz$
+Disallow: /*.7z$
+
+# Блокируем RSS/Atom если не используются
+Disallow: /*.rss$
+Disallow: /*.atom$
+Disallow: /*.xml$  # кроме sitemap.xml
+
+# Указываем основной хост (для Яндекса)
+Host: myng.ru
+
+# Время индексации (для Яндекса)
+Visit-time: 0600-2300
+
+# ============================================
+# КОММЕНТАРИИ ДЛЯ ВЕБ-МАСТЕРА
+# ============================================
+#
+# 1. Основной сайт: https://myng.ru
+# 2. Тип сайта: Статический, Minecraft сервер
+# 3. Дата создания: 2024
+# 4. Контакт: contact@myng.ru
+#
+# Правила:
+# - Разрешена индексация всех основных страниц
+# - Блокированы агрессивные SEO-боты
+# - Установлены задержки для предотвращения нагрузки
+# - Указаны карты сайта
+# - Оптимизировано для Google и Yandex
+#
+# Для проверки robots.txt используйте:
+# - Google Search Console
+# - Yandex.Webmaster
+# - Онлайн валидаторы
+#
+# Обновляйте файл при изменении структуры сайта!
