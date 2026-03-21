@@ -1736,11 +1736,16 @@
   min-height: 740px;
 }
 
+.u-section-8 .u-text-1 {
+  font-weight: 400;
+  margin: 20px auto 0;
+}
+
 .u-section-8 .u-custom-html-1 {
   margin-bottom: 0;
   height: auto;
   min-height: 740px;
-  margin-top: 0;
+  margin-top: 20px;
 }.u-section-9 .u-sheet-1 {
   min-height: 300px;
 }
